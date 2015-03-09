@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Destop MQTT Broker and Serial Bridge</title>
+	<script src="../js/main.js"></script>
+</head>
+<style>
+label {
+	display: block;
+}
+#mqtt-container {
+	height: 200px;
+}
+</style>
+<body>
+	<div id="mqtt-container">
+		<button id="mqtt-start">Start MQTT Broker</button>
+		<div id="mqtt-status">
+			Uninitialised
+		</div>
+		<div>
+			MQTT Port<input id="mqtt-port"></input>
+			MQTT Websocket Port<input id="mqtt-ws-port"></input>
+		</div>
+	</div>
+	
+	<form id="serialports" action="">
+		
+	</form>
+
+	<div>
+	Currrent Serial Port<span id=current-port>
+		None
+	</span>
+	<div>
+	
+	<button id="connect-serial">Connect</button>
+	
+
+</body>
+
+</html>

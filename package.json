@@ -1,0 +1,24 @@
+{
+  "name": "simple-text-editor",
+  "main": "./html/index.html",
+  "version": "1.0.0",
+  "dependencies": {
+	  "mosca": ">= 0.28.1",
+	   "serialport": "1.6.1",
+	   "mqtt": "1.1.0"
+  },
+  "devDependencies": {
+	  "mosca": "0.28.1",
+  	  "serialport": "1.6.1",
+	  "mqtt": "1.1.0"
+	
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "window": {
+    "toolbar": true
+  }
+}
