@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Destop MQTT Broker and Serial Bridge</title>
-	<script src="../js/main.js"></script>
-</head>
-<style>
-label {
-	display: block;
-}
-#mqtt-container {
-	height: 200px;
-}
-</style>
-<body>
-	<div id="mqtt-container">
-		<button id="mqtt-start">Start MQTT Broker</button>
-		<div id="mqtt-status">
-			Uninitialised
+	<head>
+	    <title>Destop MQTT Broker and Serial Bridge</title>
+		<link href="../css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/bootstrap-theme.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/style.css" media="all" rel="stylesheet" type="text/css" />
+		<script src="../js/jquery-2.1.3.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/main.js"></script>
+	</head>
+	<style>
+	label {
+		display: block;
+	}
+	#mqtt-container {
+		height: 200px;
+	}
+	</style>
+	<body>
+		<div class="outer">
+			<div role="tabpanel">
+				<ul class="nav nav-tabs" role="tablist" id="myTab">
+					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab">MQTT Broker</a></li>
+					<li role="presentation" ><a href="#serial" aria-controls="serial" role="tab" >Serial Port Connection</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="home">
+						<div id="mqtt-container">
+							<div class="mqtt-inputs">
+								MQTT Port: <input id="mqtt-port" />
+								MQTT Websocket Port: <input id="mqtt-ws-port" />
+							</div>
+							<div class="mqtt-status">
+								MQTT Status: <span id="mqtt-status">Uninitialised</span>
+							</div>
+							<button id="mqtt-start" class="btn btn-primary">Start MQTT Broker</button>
+						</div>
+					</div>
+
+					<div role="tabpanel" class="tab-pane" id="serial">
+						<h3>Select a serial port:</h3>
+						<form id="serialports" action="">
+
+						</form>
+						<div class="serialPortStatus">
+							<p>Currrent Serial Port: <span id="current-port">None selected</span></p>
+						<div>
+						<button id="connect-serial" class="btn btn-primary">Connect</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div>
-			MQTT Port<input id="mqtt-port"></input>
-			MQTT Websocket Port<input id="mqtt-ws-port"></input>
-		</div>
-	</div>
-	
-	<form id="serialports" action="">
-		
-	</form>
-
-	<div>
-	Currrent Serial Port<span id=current-port>
-		None
-	</span>
-	<div>
-	
-	<button id="connect-serial">Connect</button>
-	
-
-</body>
-
+	</body>
+	<script type="text/javascript">
+		$('#myTab a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	})
+	</script>
 </html>

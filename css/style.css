@@ -1,0 +1,16 @@
+.outer {
+	padding: 1em 1em;
+}
+.mqtt-inputs {
+	margin: 1em 0;
+}
+.mqtt-status {
+	margin: 1em 0;
+}
+#serialports, .serialPortStatus, .connect-serial {
+	margin: 1em 0;
+}
+#serialports input {
+	float: left;
+	width: 22px;
+}
