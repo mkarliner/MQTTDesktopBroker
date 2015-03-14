@@ -13,6 +13,9 @@
 	  "mqtt": "1.1.0"
 	
   },
+  "window": {
+	  "icon": "appicon.png"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
