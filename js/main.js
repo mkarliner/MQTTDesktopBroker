@@ -5,7 +5,6 @@ console.log("MQTT", mqtt);
 var client = mqtt.connect('mqtt://localhost:1883');
 var SerialPort = require("serialport");
 
-
 client.on("connect", function() {
 	console.log("connected to server");
 });
@@ -135,36 +134,52 @@ console.log("MOSCA: ", server);
 
 function setup() {
 	console.log('Mosca server is up and running');
-	document.getElementById('mqtt-status').innerText = "MQTT Server up and running";
+	document.getElementById('mqtt-status').innerText = "Up and running";
 }
 
 
 function portlistener(ev, par) {
 	console.log(ev, par);
 	console.log(ev.toElement.name);
-	document.getElementById('current-port').innerText = ev.toElement.name;
+	document.getElementById('current-port').innerText = ev.toElement.value;
 	currentPort = ev.toElement.name;
 	port = new SerialPort.SerialPort(
 		ev.toElement.name, {
 			parser: SerialPort.parsers.readline("\n"),
 			baudrate: 9600
 		}, false); // this is the openImmediately flag [default is true]
-
-
 }
 
 
+// SerialPort.list(function(err, ports) {
+// 	portlist = document.getElementById("serialports");
+// 	ports.forEach(function(port) {
+// 		radio = document.createElement("input");
+// 		label = document.createElement("label");
+// 		label.appendChild(document.createTextNode(port.comName));
+// 		label.appendChild(radio);
+// 		radio.type = "radio"
+// 		radio.name = 'radio';
+// 		radio.value = port.comName;
+// 		radio.addEventListener("click", portlistener, true);
+// 		portlist.appendChild(label);
+// 		//document.write(port.comName);
+// 		console.log(port.comName);
+// 		console.log(port.pnpId);
+// 		console.log(port.manufacturer);
+// 	});
+// });
 SerialPort.list(function(err, ports) {
 	portlist = document.getElementById("serialports");
 	ports.forEach(function(port) {
 		radio = document.createElement("input");
 		label = document.createElement("label");
 		label.appendChild(document.createTextNode(port.comName));
-		label.appendChild(radio);
 		radio.type = "radio"
-		radio.name = port.comName;
+		radio.name = 'radio';
 		radio.value = port.comName;
 		radio.addEventListener("click", portlistener, true);
+		portlist.appendChild(radio);
 		portlist.appendChild(label);
 		//document.write(port.comName);
 		console.log(port.comName);
