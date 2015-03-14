@@ -11,9 +11,9 @@ client.on("connect", function() {
 });
 
 client.on("message", function(topic, packet){
-	console.log("Message rcvd", topic, packet);
+	console.log("Message rcvd", topic, packet.toString());
 	if(connectStatus == true) {
-		port.write(topic + ":" + packet, function(err, results) {
+		port.write(topic + ":" + packet.toString() +"\n", function(err, results) {
 			console.log('err ' + err);
 			console.log('results ' + results);
 		});
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	mqtt_ws_port.value = moscaSettings.http.port;
 	console.log("ST", start_button);
 	server = new mosca.Server(moscaSettings);
-	server.on('ready', setup);
+	// server.on('ready', setup);
 	start_button.addEventListener("click", function() {
 		server = new mosca.Server(moscaSettings);
 		server.on('ready', setup);
@@ -88,9 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					connectStatus = true;
 					port.on('data', function(data) {
 						console.log('data received: ' + data);
+					
 						parsed_data = data.split(":");
+						
 						if(parsed_data[0] == "publish") {
-							client.publish(parsed_data[1], parsed_data[2], function(p) {
+							msg = parsed_data[2].substring(0, parsed_data[2].length - 1);
+							client.publish(parsed_data[1], msg, function(p) {
 								//console.log("Sent Sir!");
 							});
 						}
