@@ -4,6 +4,7 @@ var mqtt = require('mqtt');
 console.log("MQTT", mqtt);
 var client = mqtt.connect('mqtt://localhost:1883');
 var SerialPort = require("serialport");
+var server_status = "stopped";
 
 client.on("connect", function() {
 	console.log("connected to server");
@@ -68,11 +69,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	mqtt_port.value = moscaSettings.port;
 	mqtt_ws_port.value = moscaSettings.http.port;
 	console.log("ST", start_button);
-	server = new mosca.Server(moscaSettings);
+	// server = new mosca.Server(moscaSettings);
 	// server.on('ready', setup);
 	start_button.addEventListener("click", function() {
-		server = new mosca.Server(moscaSettings);
-		server.on('ready', setup);
+		if(server_status == "stopped") {
+			server = new mosca.Server(moscaSettings);
+			server.on('ready', setup);
+		} else {
+			server.close();
+			start_button.innerText = "Start MQTT Broker";
+			server_status = "stopped";
+		}
+
 	}, true);
 
 	connect_button = document.getElementById("connect-serial");
@@ -134,7 +142,9 @@ console.log("MOSCA: ", server);
 
 function setup() {
 	console.log('Mosca server is up and running');
-	document.getElementById('mqtt-status').innerText = "Up and running";
+	document.getElementById('mqtt-status').innerText = "Running";
+	start_button.innerText = "Stop MQTT Broker";
+	server_status = "running";
 }
 
 
