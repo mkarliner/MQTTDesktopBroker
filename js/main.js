@@ -5,6 +5,8 @@ var client = mqtt.connect('mqtt://localhost:1883');
 var SerialPort = require("serialport");
 var server_status = "stopped";
 
+var port; //Current serial port
+
 var os = require('os');
 var ifaces = os.networkInterfaces();
 
@@ -172,11 +174,11 @@ function setup() {
 
 function portlistener(ev, par) {
 	console.log(ev, par);
-	console.log(ev.toElement.name);
+	console.log(ev.toElement.value);
 	document.getElementById('current-port').innerText = ev.toElement.value;
-	currentPort = ev.toElement.name;
+	currentPort = ev.toElement.value;
 	port = new SerialPort.SerialPort(
-		ev.toElement.name, {
+		ev.toElement.value, {
 			parser: SerialPort.parsers.readline("\n"),
 			baudrate: 9600
 		}, false); // this is the openImmediately flag [default is true]
