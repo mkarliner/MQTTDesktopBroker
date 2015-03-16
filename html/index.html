@@ -21,11 +21,12 @@
 		<div class="outer">
 			<div role="tabpanel">
 				<ul class="nav nav-tabs" role="tablist" id="myTab">
-					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab">MQTT Broker</a></li>
+					<li role="presentation" class="active"><a href="#mqtt" aria-controls="mqtt" role="tab">MQTT Broker</a></li>
 					<li role="presentation" ><a href="#serial" aria-controls="serial" role="tab" >Serial Port Connection</a></li>
+					<li role="presentation" ><a href="#help" aria-controls="help" role="tab" >Help</a></li>
 				</ul>
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active" id="home">
+					<div role="tabpanel" class="tab-pane active" id="mqtt">
 						<div id="mqtt-container">
 							<div class="mqtt-inputs">
 								MQTT Port: <input id="mqtt-port" />
@@ -40,16 +41,17 @@
 							<p>IP Addresses/s</p>
 						</div>
 					</div>
-
 					<div role="tabpanel" class="tab-pane" id="serial">
 						<h3>Select a serial port:</h3>
-						<form id="serialports" action="">
-
-						</form>
+						<form id="serialports" action=""></form>
 						<div class="serialPortStatus">
 							<p>Currrent Serial Port: <span id="current-port">None selected</span></p>
-						<div>
+						</div>
 						<button id="connect-serial" class="btn btn-primary">Connect</button>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="help">
+						<h3>Help</h3>
+						<p>Add help content here</p>
 					</div>
 				</div>
 			</div>
@@ -57,8 +59,8 @@
 	</body>
 	<script type="text/javascript">
 		$('#myTab a').click(function (e) {
-	  e.preventDefault()
-	  $(this).tab('show')
-	})
+	  		e.preventDefault();
+	  		$(this).tab('show');
+		});
 	</script>
 </html>
