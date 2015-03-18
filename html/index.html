@@ -55,7 +55,17 @@
 					</div>
 					<div role="tabpanel" class="tab-pane" id="help">
 						<h3>Help</h3>
-						<p>Add help content here</p>
+						<h2>MQTT Broker</h2>
+						<p>The MQTT broker we supply is a simple configuration of Mosca, from Matteo Collina https://github.com/mcollina/mosca.</p>
+						<p> Running it is simple, just click start and you'll have a MQTT broker running on your local machine.</p>
+						<p>The only configuration options are the port to use for regular connections, which defaults to the MQTT stand 1833, and the port for websocket connects, which has no standard, but we default to 9001</p>
+						<p>To keep things simple we list the IP address(es) of your machine, so that you can configure your MQTT clients to connect to the broker easily.</p>
+						<h2>MQTT to Serial Bridge</h2>
+						<p>Many low cost microcontrollers have no networking hardware and so cannot connect to an MQTT broker directly. To allow, say, a Plain Old Arduino to connect to the MQTT broker, we have created a simple bridge to convert MQTT messages and commands to and from a serial port.</p>
+						<p>To use the bridge, enter the IP address and port of your MQTT broker and press connect. If you are using the built-in MQTT broker in the other panel, you don't need to do anything, the bridge is pre-set to connect to that</p>
+						<p>Next, select the serial port of your device, and press connect. Remember to disconnect the port if you are going to use it to download a new version of firmware, with say the Arduino IDE</p>
+						<p>Sending commands from the microcontroller. If you send the string "publish:atopic:mymessage" the bridge will publish a the message "mymessage" to the topic "atopic". Similarly, if you send the string "subscribe:anothertopic", the bridge will subscribe to the topic "anothertopic".</p>
+						<p>Receiving data from the bridge. The bridge will send messages to the microcontroller in the format "topic:message"</p>
 					</div>
 				</div>
 			</div>
