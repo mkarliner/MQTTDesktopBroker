@@ -23,3 +23,15 @@
 .interface-address {
 
 }
+
+.table-title {
+	text-align: center;
+}
+
+.greenBackground {
+	background: green;
+}
+
+.redBackground {
+	background: red;
+}

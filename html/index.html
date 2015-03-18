@@ -22,7 +22,7 @@
 			<div role="tabpanel">
 				<ul class="nav nav-tabs" role="tablist" id="myTab">
 					<li role="presentation" class="active"><a href="#mqtt" aria-controls="mqtt" role="tab">MQTT Broker</a></li>
-					<li role="presentation" ><a href="#serial" aria-controls="serial" role="tab" >Serial Port Connection</a></li>
+					<li role="presentation" ><a href="#serial" aria-controls="serial" role="tab" >Serial Bridge</a></li>
 					<li role="presentation" ><a href="#help" aria-controls="help" role="tab" >Help</a></li>
 				</ul>
 				<div class="tab-content">
@@ -32,16 +32,20 @@
 								MQTT Port: <input id="mqtt-port" />
 								MQTT Websocket Port: <input id="mqtt-ws-port" />
 							</div>
+							<table class="table table-striped table-bordered" id="ip-addr-container">
+								<tr><td colspan="2">IP Addresses/s</td></tr>
+							</table>
 							<div class="mqtt-status">
 								MQTT Status: <span id="mqtt-status">Stopped</span>
 							</div>
 							<button id="mqtt-start" class="btn btn-primary">Start MQTT Broker</button>
 						</div>
-						<div id="ip-addr-container">
-							<p>IP Addresses/s</p>
-						</div>
+
 					</div>
 					<div role="tabpanel" class="tab-pane" id="serial">
+						<h3>MQTT Broker Address:Port</h3>
+						<input id="bridge-mqtt-broker-addr" value="localhost:1883" size="60">
+						<button class="btn" id="clientConnect">Connect</button>
 						<h3>Select a serial port:</h3>
 						<form id="serialports" action=""></form>
 						<div class="serialPortStatus">

@@ -1,7 +1,13 @@
 var fs = require('fs');
 var mosca = require('mosca');
 var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://localhost:1883');
+var brokerAddr = "localhost:1883";
+var mqttClientStatus = false;
+var clientConnect;
+
+
+
+var client ;
 var SerialPort = require("serialport");
 var server_status = "stopped";
 
@@ -10,19 +16,20 @@ var port; //Current serial port
 var os = require('os');
 var ifaces = os.networkInterfaces();
 
-client.on("connect", function() {
-	console.log("connected to server");
+
+
+var gui = require('nw.gui');
+var win = gui.Window.get();
+
+win.on("close", function(){
+	brokerAddr = document.getElementById("bridge-mqtt-broker-addr").value;
+	console.log(brokerAddr);
+	localStorage.mqttClientAddr = brokerAddr;
+	win.close(true);
 });
 
-client.on("message", function(topic, packet) {
-	console.log("Message rcvd", topic, packet.toString());
-	if (connectStatus == true) {
-		port.write(topic + ":" + packet.toString() + "\n", function(err, results) {
-			console.log('err ' + err);
-			console.log('results ' + results);
-		});
-	}
-});
+
+
 
 // fs.readFile('./package.json', 'utf-8', function (error, contents) {
 // 	document.write(contents);
@@ -65,8 +72,43 @@ var connect_button;
 var connectStatus = false;
 var mqtt_port;
 var mqqt_ws_port;
+var addr;
 
 document.addEventListener('DOMContentLoaded', function() {
+	storedAddr = localStorage.mqttClientAddr;
+	console.log("STORED ADDR: ", storedAddr);
+	if(storedAddr) {
+		brokerAddr = storedAddr;
+		addr = document.getElementById("bridge-mqtt-broker-addr");
+		addr.value = brokerAddr;
+	}
+	clientConnect = document.getElementById("clientConnect");
+	addr.setAttribute("class", "redBackground");
+	client = mqtt.connect('mqtt://' + brokerAddr);
+	
+	client.on("connect", function() {
+		console.log("connected to server");
+		addr.setAttribute("class", "greenBackground");
+	});
+	client.on("message", function(topic, packet) {
+		console.log("Message rcvd", topic, packet.toString());
+		if (connectStatus == true) {
+			port.write(topic + ":" + packet.toString() + "\n", function(err, results) {
+				console.log('err ' + err);
+				console.log('results ' + results);
+			});
+		}
+	});
+	clientConnect.addEventListener("click", function(){
+		addr = document.getElementById("bridge-mqtt-broker-addr");
+		brokerAddr = addr.value;
+		addr.setAttribute("class", "redBackground");
+		client = mqtt.connect('mqtt://' + brokerAddr);
+		client.on("connect", function() {
+			console.log("connected to server");
+			addr.setAttribute("class", "greenBackground");
+		});
+	})
 	start_button = document.getElementById("mqtt-start");
 	mqtt_port = document.getElementById("mqtt-port");
 	mqtt_ws_port = document.getElementById("mqtt-ws-port");
@@ -144,14 +186,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			} else {
 				// this interface has only one ipv4 adress
 				console.log(ifname, iface.address);
-				nameDiv = document.createElement("div");
-				nameDiv.setAttribute("class", "interface-name");
-				nameDiv.innerText = ifname;
-				ip_addr_list.appendChild(nameDiv);
-				addrDiv = document.createElement("div");
-				addrDiv.setAttribute("class", "interface-address");
-				addrDiv.innerText = iface.address;
-				ip_addr_list.appendChild(addrDiv);
+				row = document.createElement("tr");
+				ip_addr_list.appendChild(row);
+				nameTD = document.createElement("td");
+				nameTD.setAttribute("class", "interface-name");
+				nameTD.innerText = ifname;
+				row.appendChild(nameTD);
+				addrTD= document.createElement("td");
+				addrTD.setAttribute("class", "interface-address");
+				addrTD.innerText = iface.address;
+				row.appendChild(addrTD);
 			}
 		});
 	});
@@ -199,9 +243,7 @@ function serialPortList() {
 			portlist.appendChild(radio);
 			portlist.appendChild(label);
 			//document.write(port.comName);
-			console.log(port.comName);
-			console.log(port.pnpId);
-			console.log(port.manufacturer);
+
 		});
 	});
 }
