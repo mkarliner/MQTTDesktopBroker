@@ -77,25 +77,30 @@ var addr;
 document.addEventListener('DOMContentLoaded', function() {
 	storedAddr = localStorage.mqttClientAddr;
 	console.log("STORED ADDR: ", storedAddr);
+	addr = document.getElementById("bridge-mqtt-broker-addr");
 	if(storedAddr) {
 		brokerAddr = storedAddr;
-		addr = document.getElementById("bridge-mqtt-broker-addr");
 		addr.value = brokerAddr;
 	}
 	clientConnect = document.getElementById("clientConnect");
 	addr.setAttribute("class", "redBackground");
+	console.log("CONN: ", brokerAddr);
 	client = mqtt.connect('mqtt://' + brokerAddr);
 	
 	client.on("connect", function() {
 		console.log("connected to server");
 		addr.setAttribute("class", "greenBackground");
 	});
+	client.on("close", function() {
+		console.log("connection closed");
+		addr.setAttribute("class", "redBackground");
+	});
 	client.on("message", function(topic, packet) {
 		console.log("Message rcvd", topic, packet.toString());
 		if (connectStatus == true) {
 			port.write(topic + ":" + packet.toString() + "\n", function(err, results) {
-				console.log('err ' + err);
-				console.log('results ' + results);
+				//console.log('err ' + err);
+				//console.log('results ' + results);
 			});
 		}
 	});
@@ -138,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					connect_button.innerText = "Disconnect";
 					connectStatus = true;
 					port.on('data', function(data) {
-						console.log('data received: ' + data);
+						//console.log('data received: ' + data);
 
 						parsed_data = data.split(":");
 
