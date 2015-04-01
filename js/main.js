@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	clientConnect = document.getElementById("clientConnect");
 	addr.setAttribute("class", "redBackground");
 	console.log("CONN: ", brokerAddr);
+
 	client = mqtt.connect('mqtt://' + brokerAddr);
 	
 	client.on("connect", function() {
@@ -108,6 +109,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		addr = document.getElementById("bridge-mqtt-broker-addr");
 		brokerAddr = addr.value;
 		addr.setAttribute("class", "redBackground");
+		if (client && typeof client.end == 'function') { 
+			console.log("Ending current client");
+		  client.end(); 
+		} else {
+			console.log("Client undefined")
+		}
 		client = mqtt.connect('mqtt://' + brokerAddr);
 		client.on("connect", function() {
 			console.log("connected to server");
