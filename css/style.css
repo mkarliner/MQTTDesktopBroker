@@ -1,3 +1,9 @@
+.identity {
+	padding: 1em 1em 0;
+}
+.identity img {
+	width: 240px;
+}
 .outer {
 	padding: 1em 1em;
 }

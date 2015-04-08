@@ -334,7 +334,7 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /usr/local/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/mike/Src/Junk/ThingDesktop/build/config.gypi -I/usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/mike/.node-gyp/0.12.0/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/mike/.node-gyp/0.12.0" "-Dmodule_root_dir=/Users/mike/Src/Junk/ThingDesktop" binding.gyp
+cmd_regen_makefile = cd $(srcdir); /usr/local/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/mike/Src/ThingStudio/MQTTDesktop/build/config.gypi -I/usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/mike/.node-gyp/0.12.0/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/mike/.node-gyp/0.12.0" "-Dmodule_root_dir=/Users/mike/Src/ThingStudio/MQTTDesktop" binding.gyp
 Makefile: $(srcdir)/../../../.node-gyp/0.12.0/common.gypi $(srcdir)/../../../../../usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp
 	$(call do_cmd,regen_makefile)
 

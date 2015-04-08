@@ -1,15 +1,15 @@
 {
-  "name": "simple-text-editor",
+  "name": "MQTTDesktop",
   "main": "./html/index.html",
   "version": "1.0.0",
   "dependencies": {
 	  "mosca": ">= 0.28.1",
-	   "serialport": "1.6.1",
+	   "serialport": "1.6.3",
 	   "mqtt": "1.1.0"
   },
   "devDependencies": {
 	  "mosca": "0.28.1",
-  	  "serialport": "1.6.1",
+  	  "serialport": "1.6.3",
 	  "mqtt": "1.1.0"
 	
   },

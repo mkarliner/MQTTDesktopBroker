@@ -18,16 +18,21 @@
 	}
 	</style>
 	<body>
+		<div class="identity">
+			<a alt="Brought to you by ThingStudio" href="http://www.thingstud.io"><img class="center-block" src="../img/logo-black.svg" alt="ThingStudio Logo"></a>
+		</div>
 		<div class="outer">
 			<div role="tabpanel">
 				<ul class="nav nav-tabs" role="tablist" id="myTab">
 					<li role="presentation" class="active"><a href="#mqtt" aria-controls="mqtt" role="tab">MQTT Broker</a></li>
 					<li role="presentation" ><a href="#serial" aria-controls="serial" role="tab" >Serial Bridge</a></li>
 					<li role="presentation" ><a href="#help" aria-controls="help" role="tab" >Help</a></li>
+					<li role="presentation" ><a href="#about" aria-controls="about" role="tab" >About</a></li>
 				</ul>
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="mqtt">
 						<div id="mqtt-container">
+							<h1>MQTT Desktop Broker</h1>
 							<div class="mqtt-inputs">
 								MQTT Port: <input id="mqtt-port" />
 								MQTT Websocket Port: <input id="mqtt-ws-port" />
@@ -43,10 +48,11 @@
 
 					</div>
 					<div role="tabpanel" class="tab-pane" id="serial">
-						<h3>MQTT Broker Address:Port</h3>
+						<h1>MQTT &lt;&ndash;&gt; Serial Bridge</h1>
+						<h4>MQTT Broker Address:Port</h4>
 						<input id="bridge-mqtt-broker-addr" value="localhost:1883" size="60">
 						<button class="btn" id="clientConnect">Connect</button>
-						<h3>Select a serial port:</h3>
+						<h4>Select a serial port:</h4>
 						<form id="serialports" action=""></form>
 						<div class="serialPortStatus">
 							<p>Currrent Serial Port: <span id="current-port">None selected</span></p>
@@ -67,6 +73,15 @@
 						<h3>Sending commands from the microcontroller.</h3><p> If you send the string "publish:atopic:mymessage" the bridge will publish a the message "mymessage" to the topic "atopic". Similarly, if you send the string "subscribe:anothertopic", the bridge will subscribe to the topic "anothertopic".</p>
 						<h3>Receiving data from the bridge. </h3><p>The bridge will send messages to the microcontroller in the format "topic:message"</p>
 						<p>You can see an example of an Arduino using the serial bridge at https://github.com/mkarliner/ThingStudioExamples.git</p>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="about">
+						<h1>About MQTT Desktop Broker</h1>
+						<p>This package is brought to you for free by <a href="http://www.thingstud.io/" alt="ThingStudio">ThingStudio</a>, under the <a href="https://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>.</p>
+						<p>No warranty or either explicit or implied guarantee of suitability for purpose. Use at your own risk.</p>
+						<h2>About ThingStudio</h2>
+						<p><a href="http://www.thingstud.io/">ThingStudio</a> is a UI editor and server for MQTT based networks. You can create dynamic, real-time UI's for the Internet of Things using only HTML based templates.</p>
+						<p>Unlike the majority of cloud platforms for the Internet of Things, ThingStudio does not require you to send home network data into a proprietary platform. Your IoT data stays within your network, and we just provide the UI's that you design.</p>
+						<p>You get the convenience of a cloud based service for the complex task of designing and managing UI's, and the privacy, speed and low latency of your own network handling your data.</p>
 					</div>
 				</div>
 			</div>
