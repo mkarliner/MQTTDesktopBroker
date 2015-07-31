@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					port.on('data', function(data) {
 						//console.log('data received: ' + data);
 
-						parsed_data = data.split(":");
+						parsed_data = data.split("|");
 
 						if (parsed_data[0] == "publish") {
 							msg = parsed_data[2].substring(0, parsed_data[2].length - 1);
