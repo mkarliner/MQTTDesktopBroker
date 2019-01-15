@@ -1,0 +1,3 @@
+build_from_source=true
+runtime=node-webkit
+target=11.6.0

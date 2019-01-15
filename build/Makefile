@@ -41,30 +41,22 @@ all_deps :=
 
 
 CC.target ?= $(CC)
-CFLAGS.target ?= $(CFLAGS)
+CFLAGS.target ?= $(CPPFLAGS) $(CFLAGS)
 CXX.target ?= $(CXX)
-CXXFLAGS.target ?= $(CXXFLAGS)
+CXXFLAGS.target ?= $(CPPFLAGS) $(CXXFLAGS)
 LINK.target ?= $(LINK)
 LDFLAGS.target ?= $(LDFLAGS)
 AR.target ?= $(AR)
 
 # C++ apps need to be linked with g++.
-#
-# Note: flock is used to seralize linking. Linking is a memory-intensive
-# process so running parallel links can often lead to thrashing.  To disable
-# the serialization, override LINK via an envrionment variable as follows:
-#
-#   export LINK=g++
-#
-# This will allow make to invoke N linker processes as specified in -jN.
-LINK ?= ./gyp-mac-tool flock $(builddir)/linker.lock $(CXX.target)
+LINK ?= $(CXX.target)
 
 # TODO(evan): move all cross-compilation logic to gyp-time so we don't need
 # to replicate this environment fallback in make as well.
 CC.host ?= gcc
-CFLAGS.host ?=
+CFLAGS.host ?= $(CPPFLAGS_host) $(CFLAGS_host)
 CXX.host ?= g++
-CXXFLAGS.host ?=
+CXXFLAGS.host ?= $(CPPFLAGS_host) $(CXXFLAGS_host)
 LINK.host ?= $(CXX.host)
 LDFLAGS.host ?=
 AR.host ?= ar
@@ -334,8 +326,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /usr/local/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/mike/Src/ThingStudio/MQTTDesktop/build/config.gypi -I/usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/mike/.node-gyp/0.12.0/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/mike/.node-gyp/0.12.0" "-Dmodule_root_dir=/Users/mike/Src/ThingStudio/MQTTDesktop" binding.gyp
-Makefile: $(srcdir)/../../../.node-gyp/0.12.0/common.gypi $(srcdir)/../../../../../usr/local/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp
+cmd_regen_makefile = cd $(srcdir); /usr/local/lib/node_modules/nw-gyp/gyp/gyp_main.py -fmake --ignore-environment "--toplevel-dir=." -I/Users/mike/Src/MQTTDesktopBroker/build/config.gypi -I/usr/local/lib/node_modules/nw-gyp/addon.gypi -I/Users/mike/.nw-gyp/0.35.4/common.gypi "--depth=." "-Goutput_dir=." "--generator-output=build" "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/mike/.nw-gyp/0.35.4" "-Dnode_gyp_dir=/usr/local/lib/node_modules/nw-gyp" "-Dnode_lib_file=\"/Users/mike/.nw-gyp/0.35.4/<(target_arch)/node.lib\"" "-Dnw_lib_file=\"/Users/mike/.nw-gyp/0.35.4/<(target_arch)/nw.lib\"" "-Dmodule_root_dir=/Users/mike/Src/MQTTDesktopBroker" "-Dnode_engine=v8" "-Dv13=1" binding.gyp
+Makefile: $(srcdir)/../../.nw-gyp/0.35.4/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../usr/local/lib/node_modules/nw-gyp/addon.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

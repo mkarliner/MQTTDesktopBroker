@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2015 Matteo Collina, http://matteocollina.com
+Copyright (c) 2013-2016 Matteo Collina, http://matteocollina.com
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -52,6 +52,16 @@ function MemoryPersistence(options, callback) {
 }
 
 util.inherits(MemoryPersistence, LevelUpPersistence);
+
+MemoryPersistence.prototype.close = function(cb) {
+
+  MemDOWN.clearGlobalStore();
+
+  this._streams.forEach(function(stream) {
+    stream.destroy();
+  });
+  this.db.close(cb);
+};
 
 /**
  * Export it as a module

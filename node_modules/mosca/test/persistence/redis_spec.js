@@ -2,9 +2,11 @@
 
 var abstract = require("./abstract");
 var Redis = require("../../").persistence.Redis;
-var redis = require("redis");
+var redis = require("ioredis");
 
 describe("mosca.persistence.Redis", function() {
+
+  this.timeout(5000);
 
   var opts = {
     ttl: {
@@ -49,6 +51,65 @@ describe("mosca.persistence.Redis", function() {
         qos: 0,
         payload: new Buffer("world"),
         messageId: "42"
+      };
+
+      var that = this;
+
+      this.instance.storeSubscriptions(client, function() {
+        that.instance.close(function() {
+          that.instance = new Redis(opts, function(err, second) {
+            second.storeOfflinePacket(packet, function() {
+              second.streamOfflinePackets(client, function(err, p) {
+                expect(p).to.eql(packet);
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+
+    it("should support subscriptions for clients with id containing ':'", function(done) {
+      var client = {
+        id: "0e:40:08:ab:1d:a2",
+        clean: false,
+        subscriptions: {
+          "hello/#": {
+            qos: 1
+          }
+        }
+      };
+
+      var that = this;
+
+      this.instance.storeSubscriptions(client, function() {
+        that.instance.close(function() {
+          that.instance = new Redis(opts, function(err, second) {
+            second.lookupSubscriptions(client, function(err, subs) {
+              expect(subs).to.eql(client.subscriptions);
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    it("should support restoring for clients with id containing ':'", function(done) {
+      var client = {
+        id: "0e:40:08:ab:1d:a3",
+        clean: false,
+        subscriptions: {
+          "hello/#": {
+            qos: 1
+          }
+        }
+      };
+
+      var packet = {
+        topic: "hello/43",
+        qos: 0,
+        payload: new Buffer("world"),
+        messageId: "43"
       };
 
       var that = this;
@@ -179,6 +240,48 @@ describe("mosca.persistence.Redis", function() {
               redisClient.llen("packets:" + client.id, function(err, length) {
                 expect(length).to.eql(1);
                 done();
+              });
+            }, 50);
+          });
+        });
+      });
+    });
+
+  });
+
+
+  describe("clustered.environment", function(){
+
+    it("should forward each packet once after client reconnects", function(done) {
+      var client = {
+        id: "cluster client id - 42",
+        clean: false,
+        subscriptions: {
+          "hello/#": {
+            qos: 1
+          }
+        }
+      };
+
+      var packet = {
+        topic: "hello/42",
+        qos: 0,
+        payload: new Buffer("world"),
+        messageId: "42"
+      };
+
+      var that = this;
+      that.secondInstance = new Redis(opts, function() {
+        that.instance.storeSubscriptions(client, function() {
+          // simulate client reconnect since storeSubscriptions is called on disconnect
+          // no matter client connects to instance or secondInstance
+          that.secondInstance.storeSubscriptions(client, function () {
+            setTimeout(function () {
+              that.secondInstance.storeOfflinePacket(packet, function () {
+                that.instance.streamOfflinePackets(client, function (err, p) {
+                  expect(p).to.eql(packet);
+                  done(); // should be called once
+                });
               });
             }, 50);
           });

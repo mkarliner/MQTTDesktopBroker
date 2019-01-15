@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	console.log("CONN: ", brokerAddr);
 
 	client = mqtt.connect('mqtt://' + brokerAddr);
-	
+
 	client.on("connect", function() {
 		console.log("connected to server");
 		addr.setAttribute("class", "greenBackground");
@@ -109,9 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		addr = document.getElementById("bridge-mqtt-broker-addr");
 		brokerAddr = addr.value;
 		addr.setAttribute("class", "redBackground");
-		if (client && typeof client.end == 'function') { 
+		if (client && typeof client.end == 'function') {
 			console.log("Ending current client");
-		  client.end(); 
+		  client.end();
 		} else {
 			console.log("Client undefined")
 		}
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// fired when the mqtt server is ready 
+// fired when the mqtt server is ready
 
 function setup() {
 	console.log('Mosca server is up and running');
@@ -244,6 +244,7 @@ function portlistener(ev, par) {
 function serialPortList() {
 	SerialPort.list(function(err, ports) {
 		portlist = document.getElementById("serialports");
+		console.log("PORTS: " + portlist)
 		ports.forEach(function(port) {
 			radio = document.createElement("input");
 			label = document.createElement("label");
